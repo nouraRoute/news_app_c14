@@ -1,4 +1,4 @@
-import 'package:news_app_c14/models/source_model.dart';
+import 'package:news_app_c14/features/sources/model/source_model.dart';
 
 class Article {
   SourceModel? source;

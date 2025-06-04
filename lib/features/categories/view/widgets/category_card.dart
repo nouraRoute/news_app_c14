@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news_app_c14/common/extentions/context_extentions.dart';
 import 'package:news_app_c14/common/theme/app_colors.dart';
-import 'package:news_app_c14/models/category_model.dart';
+import 'package:news_app_c14/features/categories/model/category_model.dart';
 
 class CategoryCard extends StatelessWidget {
   final CategoryType categoryType;

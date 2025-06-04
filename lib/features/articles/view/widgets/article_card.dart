@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news_app_c14/common/extentions/context_extentions.dart';
 import 'package:news_app_c14/common/theme/app_colors.dart';
-import 'package:news_app_c14/models/articles_response/article.dart';
+import 'package:news_app_c14/features/articles/model/articles_response/article.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class ArticleCard extends StatelessWidget {
@@ -14,8 +14,8 @@ class ArticleCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(8),
-      padding: EdgeInsets.all(8),
+      margin: const EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
           border: Border.all(
             color: context.getColorSceem().secondary,
@@ -27,7 +27,7 @@ class ArticleCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
             child: Image.network(
               article.urlToImage ?? "",
-              errorBuilder: (context, error, stackTrace) => Icon(
+              errorBuilder: (context, error, stackTrace) => const Icon(
                 Icons.image_not_supported_outlined,
                 color: Colors.grey,
               ),

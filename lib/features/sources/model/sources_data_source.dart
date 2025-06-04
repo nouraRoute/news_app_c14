@@ -4,11 +4,10 @@ import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:news_app_c14/common/app_consts.dart';
 import 'package:news_app_c14/common/endpoints.dart';
-import 'package:news_app_c14/models/source_model.dart';
+import 'package:news_app_c14/features/sources/model/source_model.dart';
 
-class SourcesApis {
-  static Future<List<SourceModel>?> getSourcesByCategory(
-      String category) async {
+class SourcesDataSource {
+  Future<List<SourceModel>?> getSourcesByCategory(String category) async {
     Uri uri = Uri.https(AppConsts.baseUrl, Endpoints.sources,
         {'apiKey': AppConsts.apiKey, 'category': category});
     print('url requist:${uri.toString()}');
@@ -29,5 +28,6 @@ class SourcesApis {
     } catch (e) {
       log('ERROR:${e}');
     }
+    return null;
   }
 }
