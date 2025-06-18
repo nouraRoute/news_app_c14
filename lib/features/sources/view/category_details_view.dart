@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:news_app_c14/common/extentions/context_extentions.dart';
 import 'package:news_app_c14/features/articles/view/articles_tab_view.dart';
 import 'package:news_app_c14/features/sources/model/source_model.dart';
-import 'package:news_app_c14/features/sources/model_view/sources_view_model.dart';
+import 'package:news_app_c14/features/sources/view_model/sources_view_model.dart';
 import 'package:provider/provider.dart';
 
 class CategoryDetailsView extends StatefulWidget {
@@ -60,7 +60,7 @@ class _CategoryDetailsViewState extends State<CategoryDetailsView> {
                         size: 40,
                         color: Colors.white,
                       ),
-                      const Text('no sources available')
+                      Text('no sources available')
                     ],
                   ),
                 );

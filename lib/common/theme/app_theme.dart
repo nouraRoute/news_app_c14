@@ -4,7 +4,7 @@ import 'package:news_app_c14/common/theme/app_colors.dart';
 
 class AppTheme {
   static ThemeData lightTheme = ThemeData(
-    dividerTheme: DividerThemeData(color: AppColors.darkMainColor),
+    dividerTheme: const DividerThemeData(color: AppColors.darkMainColor),
     appBarTheme: const AppBarTheme(
         centerTitle: true,
         titleTextStyle: CustomTextStyles.style20w500Black,
@@ -30,7 +30,7 @@ class AppTheme {
     ),
   );
   static ThemeData darkTheme = ThemeData(
-    dividerTheme: DividerThemeData(color: AppColors.lightMainColor),
+    dividerTheme: const DividerThemeData(color: AppColors.lightMainColor),
     appBarTheme: const AppBarTheme(
         centerTitle: true,
         titleTextStyle: CustomTextStyles.style20w500White,

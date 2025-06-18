@@ -9,7 +9,7 @@ class DrawerView extends StatelessWidget {
     return Column(
       children: [
         Container(
-          alignment: Alignment(0, 0),
+          alignment: const Alignment(0, 0),
           color: context.getColorSceem().secondary,
           height: (166 / 852) * context.getScreenSize().height,
           child: Text(
@@ -31,7 +31,7 @@ class DrawerView extends StatelessWidget {
             style: context.getTextThemes().titleLarge!.copyWith(fontSize: 20),
           ),
         ),
-        Divider(
+        const Divider(
           endIndent: 20,
           indent: 20,
         )

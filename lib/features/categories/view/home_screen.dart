@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         appBar: AppBar(
-          actions: [Icon(Icons.search)],
+          actions: const [Icon(Icons.search)],
           title: Text(selectedCategory != null
               ? selectedCategory!.getCategoryTypeName()
               : 'Home'), //TODO:localization
