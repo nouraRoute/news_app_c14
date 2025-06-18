@@ -1,9 +1,13 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app_c14/features/articles/view/widgets/article_card.dart';
 import 'package:news_app_c14/features/articles/view_model/articles_view_model.dart';
+import 'package:news_app_c14/features/articles/view_model/cubit/articles_cubit.dart';
+import 'package:news_app_c14/features/articles/view_model/cubit/articles_cubit_state.dart';
 import 'package:news_app_c14/features/sources/model/source_model.dart';
+import 'package:news_app_c14/features/sources/view_model/cubit/sources_cubit_state.dart';
 import 'package:provider/provider.dart';
 
 class ArticlesTabView extends StatelessWidget {
@@ -13,16 +17,14 @@ class ArticlesTabView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     log('index-->${DefaultTabController.of(context).index}');
-    return ChangeNotifierProvider(
-        create: (context) => ArticlesViewModel(),
-        builder: (ctx, child) {
-          return Expanded(
-              child: TabBarView(
-                  children: List.generate(
-                      sources.length,
-                      (tabIndex) =>
-                          TabContent(sourceId: sources[tabIndex].id!))));
-        });
+    return BlocProvider(
+        create: (context) => ArticlesCubit(),
+        child: Expanded(
+            child: TabBarView(
+                children: List.generate(
+                    sources.length,
+                    (tabIndex) =>
+                        TabContent(sourceId: sources[tabIndex].id!)))));
   }
 }
 
@@ -38,34 +40,39 @@ class _TabContentState extends State<TabContent> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<ArticlesViewModel>().getArticles(widget.sourceId);
+      context.read<ArticlesCubit>().getArticles(widget.sourceId);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ArticlesViewModel>(
-      builder:
-          (BuildContext context, ArticlesViewModel viewModel, Widget? child) {
-        if (viewModel.loading) {
+    return BlocBuilder<ArticlesCubit, ArticlesCubitState>(
+        builder: (context, state) {
+      switch (state) {
+        case ArticlesCubitInitialState():
           return const Center(
             child: CircularProgressIndicator(
               color: Colors.white,
             ),
           );
-        } else if (viewModel.errorMessage != null) {
+
+        case GetArticlesLoading():
+          return const Center(
+            child: CircularProgressIndicator(
+              color: Colors.white,
+            ),
+          );
+        case GetArticlesFailure():
           return Center(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Icon(Icons.error),
-                Text(viewModel.errorMessage!),
+                Text(state.errorMessage),
                 ElevatedButton.icon(
                   onPressed: () {
-                    context
-                        .read<ArticlesViewModel>()
-                        .getArticles(widget.sourceId);
+                    context.read<ArticlesCubit>().getArticles(widget.sourceId);
                   },
                   label: const Text('Try again'),
                   icon: const Icon(Icons.replay_outlined),
@@ -73,7 +80,7 @@ class _TabContentState extends State<TabContent> {
               ],
             ),
           );
-        } else if (viewModel.articles.isEmpty) {
+        case GetArticlesEmptyList():
           return const Center(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -84,20 +91,19 @@ class _TabContentState extends State<TabContent> {
               ],
             ),
           );
-        }
-
-        return RefreshIndicator(
-          onRefresh: () async {
-            context.read<ArticlesViewModel>().getArticles(widget.sourceId);
-          },
-          child: ListView.builder(
-            itemCount: viewModel.articles.length,
-            itemBuilder: (context, index) => ArticleCard(
-              article: viewModel.articles[index],
+        case GetArticlesSuccess():
+          return RefreshIndicator(
+            onRefresh: () async {
+              context.read<ArticlesCubit>().getArticles(widget.sourceId);
+            },
+            child: ListView.builder(
+              itemCount: state.articles.length,
+              itemBuilder: (context, index) => ArticleCard(
+                article: state.articles[index],
+              ),
             ),
-          ),
-        );
-      },
-    );
+          );
+      }
+    });
   }
 }
